@@ -137,17 +137,13 @@ class DrawingGrid {
     popup.show();
   }
   load() {
+    //Load the drawing from before into the list
     const data = JSON.parse(localStorage.getItem("drawing"));
     if (data !== undefined) {
       this.#tiles = data;
     }
 
-    const popup = new Popup(
-      "info",
-      "Drawing Loaded",
-      "Jouw tekening is geladen!"
-    );
-
+    //Load color history from local storage
     if (
       localStorage.getItem("colors") != null &&
       localStorage.getItem("colors") !== undefined &&
@@ -156,12 +152,19 @@ class DrawingGrid {
       this.#colors = localStorage.getItem("colors").split(",");
       this.#updateColorHistory();
     }
+    //Load last color used from previous session
     if (localStorage.getItem("lastcolor") !== null) {
       const lastcolor = localStorage.getItem("lastcolor");
       this.setColorPickerColor(lastcolor);
       DrawingGrid.color = lastcolor;
     }
 
+    //Show popup that data has been loaded
+    const popup = new Popup(
+      "info",
+      "Drawing Loaded",
+      "Jouw tekening is geladen!"
+    );
     popup.show();
   }
   undo() {
