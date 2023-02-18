@@ -1,6 +1,7 @@
 class DrawingGrid {
   #screen = document.createElement("div");
   #history = document.createElement("div");
+  #colorPickerElement = document.createElement("input");
   static tileSize = 20;
   static color = "black";
   static colorPickerOpen = false;
@@ -63,21 +64,20 @@ class DrawingGrid {
 
     this.#history.classList.add("toolbar-color-history");
 
-    const colorPickerElement = document.createElement("input");
-    colorPickerElement.type = "color";
-    colorPickerElement.id = "colorpicker";
-    colorPickerElement.value = "#000000";
+    this.#colorPickerElement.type = "color";
+    this.#colorPickerElement.id = "colorpicker";
+    this.#colorPickerElement.value = "#000000";
 
-    colorPickerElement.addEventListener("click", () => {
+    this.#colorPickerElement.addEventListener("click", () => {
       DrawingGrid.colorPickerOpen = true;
     });
-    colorPickerElement.addEventListener("change", () => {
-      this.#onColorChange(colorPickerElement);
+    this.#colorPickerElement.addEventListener("change", () => {
+      this.#onColorChange(this.#colorPickerElement);
       DrawingGrid.colorPickerOpen = false;
     });
 
     colorList.appendChild(this.#history);
-    colorList.appendChild(colorPickerElement);
+    colorList.appendChild(this.#colorPickerElement);
 
     this.#toolbar.appendChild(colorList);
 
@@ -95,7 +95,7 @@ class DrawingGrid {
       colorElement.style.backgroundColor = prevColor;
       colorElement.addEventListener("click", () => {
         DrawingGrid.color = prevColor;
-        DrawingGrid.setColorPickerColor(prevColor);
+        this.setColorPickerColor(prevColor);
       });
 
       this.#history.appendChild(colorElement);
@@ -103,11 +103,11 @@ class DrawingGrid {
   }
   gum() {
     DrawingGrid.color = "white";
-    DrawingGrid.setColorPickerColor("#FFFFFF");
+    this.setColorPickerColor("#FFFFFF");
   }
-  static setColorPickerColor(color) {
-    if (document.getElementById("colorpicker") !== null)
-      document.getElementById("colorpicker").value = color;
+  setColorPickerColor(color) {
+    if (this.#colorPickerElement !== null)
+      this.#colorPickerElement.value = color;
   }
   static save(grid) {
     let list = [];
@@ -127,6 +127,7 @@ class DrawingGrid {
     }
     localStorage.setItem("drawing", JSON.stringify(list));
     localStorage.setItem("colors", grid.colors.toString());
+    localStorage.setItem("lastcolor", DrawingGrid.color);
 
     const popup = new Popup(
       "success",
@@ -154,6 +155,11 @@ class DrawingGrid {
     ) {
       this.#colors = localStorage.getItem("colors").split(",");
       this.#updateColorHistory();
+    }
+    if (localStorage.getItem("lastcolor") !== null) {
+      const lastcolor = localStorage.getItem("lastcolor");
+      this.setColorPickerColor(lastcolor);
+      DrawingGrid.color = lastcolor;
     }
 
     popup.show();
