@@ -1,0 +1,177 @@
+body {
+  width: 100vw;
+  height: 100vh;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  overflow: hidden;
+}
+.grid {
+  width: 100%;
+  height: auto;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  animation: opacity 1000ms ease-in-out;
+}
+.grid-tiles {
+  background-color: rgb(219, 219, 219);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+  border: 5px solid rgb(126, 126, 126);
+}
+.grid-tiles-tile {
+  background-color: white;
+
+  margin: 1px;
+  cursor: pointer;
+  transition: background-color 100ms ease-in-out;
+}
+
+.toolbar {
+  height: 50px;
+
+  margin-bottom: 20px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  animation: opacity 1000ms ease-in-out;
+}
+.toolbar-tool {
+  width: 50px;
+  height: 50px;
+  border-radius: 15px;
+  background-color: rgb(238, 238, 238);
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  cursor: pointer;
+  transition: background-color 50ms ease-in-out;
+
+  margin-right: 10px;
+}
+.toolbar-tool:hover {
+  background-color: rgb(228, 228, 228);
+}
+.toolbar-tool img {
+  width: 60%;
+  height: auto;
+  object-fit: contain;
+}
+.toolbar-tools {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+#colorpicker {
+  width: 50px;
+  height: 50px;
+}
+
+.popup {
+  width: 300px;
+  padding: 20px;
+
+  border-radius: 10px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: row;
+
+  position: absolute;
+  left: 20px;
+  bottom: -100px;
+}
+.popup img {
+  width: 30px;
+  object-fit: contain;
+  height: auto;
+  margin-right: 20px;
+  filter: invert(100%);
+}
+.popup-container {
+}
+.popup-title {
+  color: rgb(255, 255, 255);
+  font-weight: bold;
+  margin-bottom: 10px;
+  font-size: 1.1em;
+}
+.popup-message {
+  color: white;
+  font-size: 1em;
+}
+
+.toolbar-colors {
+  width: 100%;
+
+  height: 100%;
+
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  flex-direction: row;
+}
+.toolbar-color-history {
+  width: 30%;
+  max-height: 100%;
+  overflow-y: auto;
+
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-start;
+  flex-direction: row;
+  flex-wrap: wrap-reverse;
+
+  padding: 10px;
+  position: relative;
+}
+.toolbar-color-history div {
+  margin: 1px;
+}
+.toolbar-color-history div:hover {
+  cursor: pointer;
+  transform: scale(1.05);
+}
+.color-previous {
+  width: 20px;
+  height: 20px;
+}
+@keyframes popup {
+  0% {
+    bottom: -100px;
+  }
+  20% {
+    bottom: 20px;
+  }
+  80% {
+    bottom: 20px;
+  }
+  100% {
+    bottom: -100px;
+  }
+}
+@keyframes opacity {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
