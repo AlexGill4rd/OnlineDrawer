@@ -76,6 +76,7 @@ class DrawingGrid {
       this.#onColorChange(this.#colorPickerElement);
       DrawingGrid.colorPickerOpen = false;
     });
+    this.#colorPickerElement.ariaLabel = "colorpicker";
 
     colorList.appendChild(this.#history);
     colorList.appendChild(this.#colorPickerElement);
