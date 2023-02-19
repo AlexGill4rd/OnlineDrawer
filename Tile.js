@@ -35,14 +35,14 @@ class Tile {
     this.#colorSet = false;
   }
   #onTileClick(clicked) {
-    if (clicked) DrawingGrid.history = [];
+    if (clicked) DrawingGrid.tileHistory = [];
     else {
       this.#previousColor = this.#tileElement.style.backgroundColor;
     }
 
     if (
       (DrawingGrid.mouseIsDown || clicked) &&
-      !this.#historyConstainsElement(this.#tileElement) &&
+      !this.#historyContainsElement(this.#tileElement) &&
       !DrawingGrid.colorPickerOpen
     ) {
       const data = {
@@ -53,11 +53,11 @@ class Tile {
 
       this.#tileElement.style.backgroundColor = DrawingGrid.color;
       this.#colorSet = true;
-      DrawingGrid.history.push(data);
+      DrawingGrid.tileHistory.push(data);
     }
   }
-  #historyConstainsElement(element) {
-    for (let item of DrawingGrid.history) {
+  #historyContainsElement(element) {
+    for (let item of DrawingGrid.tileHistory) {
       if (item.element === element) return true;
     }
     return false;

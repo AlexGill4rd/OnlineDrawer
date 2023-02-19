@@ -1,6 +1,7 @@
 class DrawingGrid {
   #screen = document.createElement("div");
   #history = document.createElement("div");
+  #tileHistory = [];
   #colorPickerElement = document.createElement("input");
   static tileSize = 20;
   static color = "black";
@@ -52,7 +53,7 @@ class DrawingGrid {
     );
     tools.appendChild(
       new Tool(
-        this.gum,
+        () => this.gum(),
         "https://cdn-icons-png.flaticon.com/512/1827/1827954.png"
       ).getElement()
     );
@@ -94,16 +95,18 @@ class DrawingGrid {
       colorElement.classList.add("color-previous");
       colorElement.style.backgroundColor = prevColor;
       colorElement.addEventListener("click", () => {
-        DrawingGrid.color = prevColor;
-        this.setColorPickerColor(prevColor);
+        this.setColor(prevColor);
       });
 
       this.#history.appendChild(colorElement);
     }
   }
   gum() {
-    DrawingGrid.color = "white";
-    this.setColorPickerColor("#FFFFFF");
+    this.setColor("#FFFFFF");
+  }
+  setColor(color) {
+    DrawingGrid.color = color;
+    this.setColorPickerColor(color);
   }
   setColorPickerColor(color) {
     if (this.#colorPickerElement !== null)
@@ -155,8 +158,7 @@ class DrawingGrid {
     //Load last color used from previous session
     if (localStorage.getItem("lastcolor") !== null) {
       const lastcolor = localStorage.getItem("lastcolor");
-      this.setColorPickerColor(lastcolor);
-      DrawingGrid.color = lastcolor;
+      this.setColor(lastcolor);
     }
 
     //Show popup that data has been loaded
@@ -168,7 +170,7 @@ class DrawingGrid {
     popup.show();
   }
   undo() {
-    for (let historyItem of DrawingGrid.history) {
+    for (let historyItem of DrawingGrid.tileHistory) {
       let color;
       if (historyItem.from === undefined || historyItem.from == "")
         color = "white";
@@ -176,7 +178,7 @@ class DrawingGrid {
 
       historyItem.element.style.backgroundColor = color;
     }
-    DrawingGrid.history = [];
+    DrawingGrid.tileHistory = [];
 
     const popup = new Popup(
       "success",
@@ -188,6 +190,7 @@ class DrawingGrid {
   #onColorChange(colorpicker) {
     this.#colors.push(DrawingGrid.color);
     this.#updateColorHistory();
+
     DrawingGrid.color = colorpicker.value;
   }
   clearDrawing() {
