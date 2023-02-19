@@ -9,6 +9,7 @@ class Tool {
     this.#element.addEventListener("click", () => this.onClick());
     const image = document.createElement("img");
     image.classList.add("tool");
+    image.alt("tool for drawing");
     image.src = this.imageURL;
     this.#element.appendChild(image);
 
